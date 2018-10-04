@@ -77,8 +77,9 @@ public class UsandoPadroes {
 
             ResultSet rs = stmt.executeQuery(sql);
 
+            System.out.println("---------------------------------------------------------------------------------");
             System.out.println(String.format("|%-5s|%-25s|%-10s|%-10s|%-25s|", "ID", "Nome", "Peso", "Altura", "Email"));
-            System.out.println("-------------------------------------------------------------------------------------");
+            System.out.println("---------------------------------------------------------------------------------");
             while (rs.next()) {
                 System.out.println(String.format("|%-5d|%-25s|%-10.2f|%-10d|%-25s|",
                         rs.getInt("idPessoa"),
@@ -87,7 +88,7 @@ public class UsandoPadroes {
                         rs.getInt("altura"),
                         rs.getString("email")));
             }
-            System.out.println("-------------------------------------------------------------------------------------");
+            System.out.println("---------------------------------------------------------------------------------");
             rs.close();
             stmt.close();
         } catch (SQLException e) {

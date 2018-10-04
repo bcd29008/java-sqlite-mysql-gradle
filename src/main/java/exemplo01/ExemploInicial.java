@@ -8,12 +8,17 @@ import java.util.Scanner;
 
 
 /**
+ * Exemplo didático de como trabalhar com SQLite e Java.
+ *
  * Essa classe apresenta um exemplo simples de como fazer uma inserção de registro em uma tabela
  * e como obter todas as linhas de uma tabela com o banco de dados SQLite.
  * <p>
  * Essa classe não segue as melhores práticas para trabalhar com banco de dados relacionais.
+ *
+ * A organização apresentada nesse projeto não deve ser usado em ambientes de produção.
+ *
  */
-public class Introducao {
+public class ExemploInicial {
     /**
      * Localização onde ficará o banco de dados SQLite
      */
@@ -76,6 +81,10 @@ public class Introducao {
 
         ResultSet rs = stmt.executeQuery(sql);
 
+
+        System.out.println("---------------------------------------------------------------------------------");
+        System.out.println(String.format("|%-5s|%-25s|%-10s|%-10s|%-25s|", "ID", "Nome", "Peso", "Altura", "Email"));
+        System.out.println("---------------------------------------------------------------------------------");
         while (rs.next()) {
             System.out.println(String.format("|%-5d|%-25s|%-10.2f|%-10d|%-25s|",
                     rs.getInt("idPessoa"),
@@ -84,7 +93,7 @@ public class Introducao {
                     rs.getInt("altura"),
                     rs.getString("email")));
         }
-        System.out.println("-------------------------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------------------");
 
         rs.close();
         stmt.close();
@@ -126,6 +135,9 @@ public class Introducao {
         ResultSet rs = stmt.executeQuery(sql);
 
 
+        System.out.println("---------------------------------------------------------------------------------");
+        System.out.println(String.format("|%-5s|%-25s|%-10s|%-10s|%-25s|", "ID", "Nome", "Peso", "Altura", "Email"));
+        System.out.println("---------------------------------------------------------------------------------");
         while (rs.next()) {
             System.out.println(String.format("|%-5d|%-25s|%-10.2f|%-10d|%-25s|",
                     rs.getInt("idPessoa"),
@@ -134,15 +146,16 @@ public class Introducao {
                     rs.getInt("altura"),
                     rs.getString("email")));
         }
+        System.out.println("---------------------------------------------------------------------------------");
         rs.close();
         stmt.close();
         conexao.close();
     }
 
     public static void main(String[] args) throws Exception {
-        inserirAluno();
+//        inserirAluno();
         listarRegistros();
-        buscandoPorPessoaEspecifica();
+//        buscandoPorPessoaEspecifica();
     }
 
 

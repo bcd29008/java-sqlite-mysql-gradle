@@ -2,7 +2,7 @@
 
 # Exemplo com SQLite
 
-Esse projeto é composto de três pequenos exemplos em Java para acessar um banco de dados SQLite.
+Esse projeto é composto de pequenos exemplos em Java para acessar um banco de dados SQLite.
 
 
 
@@ -21,3 +21,9 @@ Código que apresenta uma organização que segue padrões de projeto de softwar
 ## Exemplo 03
 
 Apresenta o uso da classe PreparedStatement, preferível em relação ao Statment principalmente por evitar problemas com *SQL Injection*.
+
+
+
+## Exemplo 04
+
+Apresenta o uso do padrão de projeto Direct Access Object (DAO)
