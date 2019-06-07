@@ -13,17 +13,30 @@ import java.sql.SQLException;
  */
 public class UsandoPreparedStmt {
 
-    private Connection conexao;
 
-    public UsandoPreparedStmt() {
-        this.conexao = ConnectionFactory.getConnection();
+    /**
+     * Método principal
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+
+        UsandoPreparedStmt exer03 = new UsandoPreparedStmt();
+
+//        exer03.listarDadosDeUmaPessoa(1);
+//        exer03.atualizaEmail(1, "novo@email.com");
+
+        exer03.listarPessoas();
+
+        exer03.listarPessoas();
     }
 
-
     public void listarPessoas() {
-        PreparedStatement stmt = null;
-        try {
-            stmt = conexao.prepareStatement("SELECT * FROM Pessoa");
+        String query = "SELECT * FROM Pessoa";
+
+        try (Connection conexao = ConnectionFactory.getDBConnection();
+             PreparedStatement stmt = conexao.prepareStatement(query)) {
+
             ResultSet rs = stmt.executeQuery();
 
             System.out.println("---------------------------------------------------------------------------------");
@@ -39,16 +52,18 @@ public class UsandoPreparedStmt {
             }
             System.out.println("---------------------------------------------------------------------------------");
             rs.close();
-            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void listarDadosDeUmaPessoa(int idPessoa) {
-        PreparedStatement stmt = null;
-        try {
-            stmt = conexao.prepareStatement("SELECT * FROM Pessoa WHERE idPessoa = ?");
+        String query = "SELECT * FROM Pessoa WHERE idPessoa = ?";
+
+        try (Connection conexao = ConnectionFactory.getDBConnection();
+             PreparedStatement stmt = conexao.prepareStatement(query)) {
+
+
             stmt.setInt(1, idPessoa);
             ResultSet rs = stmt.executeQuery();
 
@@ -65,50 +80,27 @@ public class UsandoPreparedStmt {
             }
             System.out.println("---------------------------------------------------------------------------------");
             rs.close();
-            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void atualizaEmail(int idPessoa, String email) {
-        PreparedStatement stmt = null;
-        try {
-            stmt = conexao.prepareStatement("UPDATE Pessoa SET Email = ?  WHERE idPessoa = ?");
+        String query = "UPDATE Pessoa SET Email = ?  WHERE idPessoa = ?";
+
+        try (Connection conexao = ConnectionFactory.getDBConnection();
+             PreparedStatement stmt = conexao.prepareStatement(query)) {
+
+
             stmt.setString(1, email);
             stmt.setInt(2, idPessoa);
 
             int totalLinhasModificadas = stmt.executeUpdate();
             System.out.println("Total de registros modificados: " + totalLinhasModificadas);
 
-            stmt.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-
-
-    public void closeConnection() {
-        try {
-            this.conexao.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Método principal
-     * @param args
-     */
-    public static void main(String[] args) {
-
-        UsandoPreparedStmt exer03 = new UsandoPreparedStmt();
-
-//        exer03.listarDadosDeUmaPessoa(1);
-//        exer03.atualizaEmail(1, "novo@email.com");
-
-        exer03.listarPessoas();
-        exer03.closeConnection();
     }
 }

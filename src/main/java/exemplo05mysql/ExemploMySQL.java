@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Um pequeno exemplo de como fazer uma fábrica de conexões (singleton) para MySQL.
+ * Um pequeno exemplo de como fazer uma fábrica de conexões para MySQL.
  * <p>
  * O arquivo resources/lab02-dml-ddl.sql contém as instruções DML e DDL para criação
  * do banco de dados necessário para esse exemplo. Crie um esquema em uma instalação

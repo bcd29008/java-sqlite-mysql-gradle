@@ -1,22 +1,20 @@
 package exemplo01;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import org.sqlite.JDBC;
+
+import java.sql.*;
 import java.util.Scanner;
 
 
 /**
  * Exemplo didático de como trabalhar com SQLite e Java.
- *
+ * <p>
  * Essa classe apresenta um exemplo simples de como fazer uma inserção de registro em uma tabela
  * e como obter todas as linhas de uma tabela com o banco de dados SQLite.
  * <p>
  * Essa classe não segue as melhores práticas para trabalhar com banco de dados relacionais.
- *
+ * <p>
  * A organização apresentada nesse projeto não deve ser usado em ambientes de produção.
- *
  */
 public class ExemploInicial {
     /**
@@ -30,7 +28,7 @@ public class ExemploInicial {
      *
      * @throws Exception toda e qualquer exceção gerada ao lidar com o banco de dados
      */
-    public static void inserirAluno() throws Exception{
+    public static void inserirAluno() throws Exception {
         /**
          * Configuração do driver JDBC para o SQLite. O jar desse driver foi
          * obtido por meio do gradle (veja arquivo build.gradle)
@@ -62,9 +60,10 @@ public class ExemploInicial {
 
     /**
      * Listando todas as colunas e linhas da tabela Pessoa
+     *
      * @throws Exception
      */
-    public static void listarRegistros() throws Exception{
+    public static void listarRegistros() throws Exception {
 
         /**
          * Configuração do driver JDBC para o SQLite. O jar desse driver foi
@@ -103,59 +102,69 @@ public class ExemploInicial {
     /**
      * Buscando por uma pessoa específica. O usuário fornece o endereço de
      * email.
-     *
+     * <p>
      * O código abaixo sofre com problemas de SQL Injection
-     *
-     *  https://xkcd.com/327/
-     *
-     *  Se o usuário entrar com a String: naosei' OR '1' = '1
-     *  ele conseguirá retornar todas as linhas
+     * <p>
+     * https://xkcd.com/327/
+     * <p>
+     * Se o usuário entrar com a String: naosei' OR '1' = '1
+     * ele conseguirá retornar todas as linhas
      *
      * @throws Exception
      */
-    public static void buscandoPorPessoaEspecifica() throws Exception{
-        /**
-         * Configuração do driver JDBC para o SQLite. O jar desse driver foi
-         * obtido por meio do gradle (veja arquivo build.gradle)
-         */
-        Class.forName("org.sqlite.JDBC");
-        Connection conexao = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
-        Statement stmt = conexao.createStatement();
-        Scanner teclado = new Scanner(System.in);
+    public static void buscandoPorPessoaEspecifica(String emailPessoa) throws SQLException {
 
-        System.out.print("Entre com o email: ");
-        String emailPessoa = teclado.nextLine();
+        Connection conexao = null;
+        Statement stmt = null;
+        ResultSet rs = null;
 
-        stmt = conexao.createStatement();
+        try {
+            DriverManager.registerDriver(new JDBC());
 
-        String sql = "SELECT * FROM Pessoa WHERE Email = '" + emailPessoa + "'";
+            /**
+             * Configuração do driver JDBC para o SQLite. O jar desse driver foi
+             * obtido por meio do gradle (veja arquivo build.gradle)
+             */
+            conexao = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+            stmt = conexao.createStatement();
 
-        System.out.println("Consulta SQL: " + sql + "\n");
+            String sql = "SELECT * FROM Pessoa WHERE Email = '" + emailPessoa + "'";
 
-        ResultSet rs = stmt.executeQuery(sql);
+            System.out.println("Consulta SQL: " + sql + "\n");
 
+            rs = stmt.executeQuery(sql);
 
-        System.out.println("---------------------------------------------------------------------------------");
-        System.out.println(String.format("|%-5s|%-25s|%-10s|%-10s|%-25s|", "ID", "Nome", "Peso", "Altura", "Email"));
-        System.out.println("---------------------------------------------------------------------------------");
-        while (rs.next()) {
-            System.out.println(String.format("|%-5d|%-25s|%-10.2f|%-10d|%-25s|",
-                    rs.getInt("idPessoa"),
-                    rs.getString("Nome"),
-                    rs.getDouble("peso"),
-                    rs.getInt("altura"),
-                    rs.getString("email")));
+            System.out.println("---------------------------------------------------------------------------------");
+            System.out.println(String.format("|%-5s|%-25s|%-10s|%-10s|%-25s|", "ID", "Nome", "Peso", "Altura", "Email"));
+            System.out.println("---------------------------------------------------------------------------------");
+            while (rs.next()) {
+                System.out.println(String.format("|%-5d|%-25s|%-10.2f|%-10d|%-25s|",
+                        rs.getInt("idPessoa"),
+                        rs.getString("Nome"),
+                        rs.getDouble("peso"),
+                        rs.getInt("altura"),
+                        rs.getString("email")));
+            }
+            System.out.println("---------------------------------------------------------------------------------");
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (conexao != null) {
+                conexao.close();
+            }
         }
-        System.out.println("---------------------------------------------------------------------------------");
-        rs.close();
-        stmt.close();
-        conexao.close();
     }
 
     public static void main(String[] args) throws Exception {
 //        inserirAluno();
         listarRegistros();
-//        buscandoPorPessoaEspecifica();
+
+        Scanner teclado = new Scanner(System.in);
+        System.out.print("Entre com o email: ");
+        String emailPessoa = teclado.nextLine();
+//        buscandoPorPessoaEspecifica(emailPessoa);
     }
 
 

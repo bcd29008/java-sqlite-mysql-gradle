@@ -12,25 +12,20 @@ import java.sql.Statement;
  */
 public class UsandoPadroes {
 
-    private Connection conexao;
+    public static void main(String[] args) {
+        UsandoPadroes exer02 = new UsandoPadroes();
 
-    public UsandoPadroes() {
-        this.conexao = ConnectionFactory.getConnection();
+        exer02.listarPessoas();
+        exer02.listarPessoas();
+
     }
-
-    public void closeConnection() {
-        try {
-            this.conexao.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public void createTable() {
-        Statement stmt = null;
-        try {
-            stmt = conexao.createStatement();
+
+        // Try-with-resources irá fechar automaticamente a conexão
+        try (Connection conexao = ConnectionFactory.getDBConnection();
+             Statement stmt = conexao.createStatement()) {
+
 
             String sql = "CREATE TABLE IF NOT EXISTS Pessoa ("
                     + "idPessoa INTEGER PRIMARY KEY NOT NULL,"
@@ -41,16 +36,16 @@ public class UsandoPadroes {
 
             stmt.executeUpdate(sql);
 
-            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void inserirPessoa(String nome, double peso, int altura, String email) {
-        Statement stmt = null;
-        try {
-            stmt = conexao.createStatement();
+
+        // Try-with-resources irá fechar automaticamente a conexão
+        try (Connection conexao = ConnectionFactory.getDBConnection();
+             Statement stmt = conexao.createStatement()) {
 
             String sql = "INSERT INTO Pessoa (nome, peso, altura, email) VALUES "
                     + "("
@@ -62,16 +57,16 @@ public class UsandoPadroes {
 
             stmt.executeUpdate(sql);
 
-            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void listarPessoas() {
-        Statement stmt = null;
-        try {
-            stmt = conexao.createStatement();
+
+        // Try-with-resources irá fechar automaticamente a conexão
+        try (Connection conexao = ConnectionFactory.getDBConnection();
+             Statement stmt = conexao.createStatement()) {
 
             String sql = "SELECT * FROM Pessoa";
 
@@ -90,19 +85,9 @@ public class UsandoPadroes {
             }
             System.out.println("---------------------------------------------------------------------------------");
             rs.close();
-            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-
-        UsandoPadroes exer02 = new UsandoPadroes();
-
-        exer02.listarPessoas();
-        exer02.closeConnection();
-
     }
 
 }

@@ -3,17 +3,15 @@ package exemplo04;
 import exemplo04.entities.Pessoa;
 import exemplo04.entities.PessoaDAO;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
  * Essa classe apresenta um exemplo de como usar o padrão de projeto Direct Access Object (DAO)
- *
  */
 public class UsandoDAO {
 
 
-    public static void inserirPessoa(){
+    public static void inserirPessoa() {
 
         Pessoa p = new Pessoa("Juca Teste", 60, 160, "juca@teste.com");
 
@@ -22,7 +20,7 @@ public class UsandoDAO {
     }
 
 
-    public static void listarPessoas(){
+    public static void listarPessoas() {
         List<Pessoa> pessoas = PessoaDAO.listarTodas();
 
         System.out.println("---------------------------------------------------------------------------------");

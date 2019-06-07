@@ -8,7 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Singleton responsável por criar conexões com o banco MySQL
  * <p>
  * O arquivo resources/lab02-dml-ddl.sql contém as instruções DML e DDL para criação
  * do banco de dados necessário para esse exemplo. Crie um esquema em uma instalação
@@ -19,12 +18,16 @@ import java.util.logging.Logger;
  * <p>
  * Verifique se sua instalação MySQL permite receber conexões por meio de sockets TCP
  */
-public final class ConnectionFactory {
+public abstract class ConnectionFactory {
 
     private static Connection cnx;
-    private static ConnectionFactory db;
 
-    private ConnectionFactory() {
+    /**
+     * Faz a conexão em um banco de dados MySQL e retorna o objeto Connection
+     *
+     * @return conexão com um banco MySQL
+     */
+    public static synchronized Connection getDBConnection() {
         Properties properties = new Properties();
 
         properties.setProperty("user", "nome-do-usuario");
@@ -42,17 +45,7 @@ public final class ConnectionFactory {
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
 
-    /**
-     * Faz a conexão em um banco de dados MySQL e retorna o objeto Connection
-     *
-     * @return conexão com um banco MySQL
-     */
-    public static synchronized Connection getDBConnection() {
-        if (db == null) {
-            db = new ConnectionFactory();
-        }
         return cnx;
     }
 

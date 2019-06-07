@@ -7,7 +7,7 @@ public class Pessoa {
     private int altura;
     private String email;
 
-    public Pessoa(){
+    public Pessoa() {
 
     }
 
@@ -62,7 +62,7 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return  String.format("|%-5d|%-25s|%-10.2f|%-10d|%-25s|",
+        return String.format("|%-5d|%-25s|%-10.2f|%-10d|%-25s|",
                 idPessoa, nome, peso, altura, email);
     }
 }

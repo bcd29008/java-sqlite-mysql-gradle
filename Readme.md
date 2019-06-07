@@ -1,4 +1,4 @@
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/poo29004/java-of-empires/master/LICENSE)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Build Status](https://travis-ci.org/bcd29008/java-sqlite-mysql-gradle.svg?branch=master)](https://travis-ci.org/bcd29008/java-sqlite-mysql-gradle)
 
 # Exemplos em Java com SQLite e MySQL / MariaDB
 
