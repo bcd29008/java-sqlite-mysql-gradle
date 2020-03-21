@@ -2,12 +2,14 @@
 
 # Exemplos em Java com SQLite e MySQL / MariaDB
 
-Esse projeto é composto de pequenos exemplos em Java para acessar banco de dados SQLite e MySQL / MariaDB.
+Esse projeto é composto de pequenos exemplos em Java para acessar banco de dados SQLite e MySQL / MariaDB usando [JDBC 4](https://docs.oracle.com/javase/tutorial/jdbc/basics/connecting.html).
 
+Execute a classe [bcd.Principal](src/main/java/bcd/Principal.java) e a partir dessa será possível invocar os exemplos apresentados abaixo.
 
 ## Exemplo 01 - SQLite
 
-Código simples só apresentar os conceitos básicos: como conectar, como fazer consulta
+Código simples para apresentar os conceitos básicos para consulta, inserção, alteração e remoção de linhas em um banco de dados SQLite.
+
 
 
 ## Exemplo 02 - SQLite
@@ -26,4 +28,34 @@ Apresenta o uso do padrão de projeto Direct Access Object (DAO)
 
 ## Exemplo 05 - MySQL
 
-Apresenta um pequeno exemplo de como conectar em um banco de dados MySQL
+Apresenta um pequeno exemplo de como conectar em um banco de dados MySQL.
+
+Para conectar em um banco MySQL é necessário informar:
+- username - nome do usuário
+- password - senha do usuário
+- hostname - endereço IP ou hostname do servidor MySQL
+- port - porta onde o processo do MySQL está ouvindo (por padrão é 3306)
+- dbname - nome do esquema
+
+Essas informações devem ser informadas no arquivo [ConnectionFactory.java](src/main/java/exemplo05mysql/db/ConnectionFactory.java).
+
+Se você tiver uma instalação própria do MySQL, então use o arquivo [lab01-dml-ddl.sql](src/main/resources/lab01-dml-ddl.sql) para criar as tabelas, bem como inserir os registros, necessários para esse exemplo 05. Os comandos abaixo devem ser executados, porém, no cliente mysql no terminal:
+```SQL
+CREATE DATABASE lab01;
+
+CREATE USER IF NOT EXISTS 'aluno'@'%' IDENTIFIED by '1234';
+GRANT ALL ON lab01.* TO 'aluno'@'%';
+
+USE lab01;
+SOURCE lab01-dml-ddl.sql
+```
+
+Os comandos acima criaram um esquema chamado `lab01`, um usuário `aluno` com a senha `1234` e com total permissão sobre o esquema `lab01`. Por fim, executou o *script* `lab01-dml-ddl.sql`.
+
+
+## Como usar o IntelliJ Ultimate para acessar o banco de dados
+
+O IntelliJ tem um cliente para bancos de dados o qual permite fazer consultas, inserir, alterar e remover registros. Para configurar isso, veja:
+
+- [Documentação oficial para SQLite](https://www.jetbrains.com/help/idea/connecting-to-a-database.html#connect-to-sqlite-database).
+- [Documentação oficial para MySQL](https://www.jetbrains.com/help/idea/connecting-to-a-database.html#connect-to-mysql-database)
