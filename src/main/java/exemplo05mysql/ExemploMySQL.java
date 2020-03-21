@@ -9,7 +9,7 @@ import java.sql.SQLException;
 /**
  * Um pequeno exemplo de como fazer uma fábrica de conexões para MySQL.
  * <p>
- * O arquivo resources/lab02-dml-ddl.sql contém as instruções DML e DDL para criação
+ * O arquivo resources/lab01-dml-ddl.sql contém as instruções DML e DDL para criação
  * do banco de dados necessário para esse exemplo. Crie um esquema em uma instalação
  * MySQL / MariaDB e importe o conteúdo desse arquivo.
  * <p>
@@ -17,41 +17,40 @@ import java.sql.SQLException;
  */
 public class ExemploMySQL {
 
-
-    public static void main(String[] args) {
-
-        ExemploMySQL exemploMySQL = new ExemploMySQL();
-
-        exemploMySQL.listarDadosDeTodosDepartamentos();
-
-    }
-
     /**
      * Listando todos as linhas e colunas da tabela Departamento
      */
-    public void listarDadosDeTodosDepartamentos() {
-        String query = "SELECT * FROM Departamento";
+    public String listarDadosDeTodosDepartamentos() {
+        StringBuilder sb = new StringBuilder();
 
+        String query = "SELECT * FROM Departamento";
 
         try (PreparedStatement stmt = ConnectionFactory.getDBConnection().prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
-            System.out.println("------------------------------------------------------");
-            System.out.println(String.format("|%-5s|%-35s|%10s|", "ID", "Nome", "Orçamento"));
-            System.out.println("------------------------------------------------------");
+            if (rs.next()) {
 
-            while (rs.next()) {
-                int idDepto = rs.getInt("idDepartamento");
-                String dNome = rs.getString("dNome");
-                double orcamento = rs.getDouble("Orcamento");
+                sb.append("------------------------------------------------------\n");
+                sb.append(String.format("|%-5s|%-35s|%10s|\n", "ID", "Nome", "Orçamento"));
+                sb.append("------------------------------------------------------\n");
 
-                System.out.println(String.format("|%-5d|%-35s|%10.2f|", idDepto, dNome, orcamento));
+                do {
+                    int idDepto = rs.getInt("idDepartamento");
+                    String dNome = rs.getString("dNome");
+                    double orcamento = rs.getDouble("Orcamento");
+
+                    sb.append(String.format("|%-5d|%-35s|%10.2f|\n", idDepto, dNome, orcamento));
+                } while (rs.next());
+                sb.append("------------------------------------------------------\n");
+            } else {
+                sb.append("Não há registros no banco de dados\n");
             }
-            System.out.println("------------------------------------------------------");
+
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return sb.toString();
     }
 
 }

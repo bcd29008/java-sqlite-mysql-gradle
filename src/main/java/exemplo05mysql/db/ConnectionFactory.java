@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 /**
  * <p>
- * O arquivo resources/lab02-dml-ddl.sql contém as instruções DML e DDL para criação
+ * O arquivo resources/lab01-dml-ddl.sql contém as instruções DML e DDL para criação
  * do banco de dados necessário para esse exemplo. Crie um esquema em uma instalação
  * MySQL / MariaDB e importe o conteúdo desse arquivo.
  * <p>
@@ -36,7 +36,7 @@ public abstract class ConnectionFactory {
 
         String host = "127.0.0.1";
         String port = "3306";
-        String dbname = "lab02";
+        String dbname = "lab01";
 
         String url = "jdbc:mysql://" + host + ":" + port + "/" + dbname;
 
