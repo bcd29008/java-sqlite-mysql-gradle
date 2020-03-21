@@ -1,10 +1,10 @@
--- DROP SCHEMA IF EXISTS lab02;
--- CREATE SCHEMA lab02;
+-- DROP SCHEMA IF EXISTS lab01;
+-- CREATE SCHEMA lab01;
 -- USE lab02;
 
 -- MySQL dump 10.13  Distrib 5.7.17, for Linux (x86_64)
 --
--- Host: localhost    Database: lab02
+-- Host: localhost    Database: lab01
 -- ------------------------------------------------------
 -- Server version	5.7.17
 

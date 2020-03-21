@@ -10,7 +10,7 @@ import java.sql.SQLException;
  * Classe responsável por criar conexões com o banco
  */
 public abstract class ConnectionFactory {
-    private static final String dbPath = "src/main/resources/lab01.db";
+    private static final String dbPath = "src/main/resources/lab01.sqlite";
     private static Connection cnx;
 
     /**
