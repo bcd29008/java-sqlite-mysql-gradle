@@ -1,6 +1,10 @@
 package bcd;
 
 import exemplo01.ExemploMuitoSimples;
+import exemplo02.PadroesDeProjeto;
+import exemplo03.UsandoPreparedStmt;
+import exemplo04.UsandoDAO;
+import exemplo04.entities.Pessoa;
 
 import java.sql.SQLException;
 import java.util.InputMismatchException;
@@ -10,6 +14,10 @@ public class Principal {
     private final String[] EXEMPLOS = {
             "\n..:: Pequenos exemplos com Java, SQLite e MySQL ::..\n",
             "1 - Exemplo 01",
+            "2 - Exemplo 02 - uso de padrões de projeto",
+            "3 - Exemplo 03 - uso de PreparedStatement",
+            "4 - Exemplo 04 - uso do Data Access Object (DAO)",
+            "5 - Exemplo 05 - MySQL",
             "6 - Sair do programa"
     };
     private final String[] MENU_EX1 = {"\n...:: Exemplo com SQLite ::...\n",
@@ -18,7 +26,21 @@ public class Principal {
             "3 - Excluir uma pessoa",
             "4 - Listar dados de uma pessoa",
             "5 - Listar todas pessoas",
-            "6 - Sair do programa"};
+            "6 - Voltar ao menu anterior"
+    };
+    private final String[] MENU_EX3 = {"\n...:: Exemplo com PreparedStatement ::...\n",
+            "1 - Listar todas pessoas",
+            "2 - Listar dados de uma pessoa",
+            "3 - Atualizar email de uma pessoa",
+            "4 - Voltar ao menu anterior"
+    };
+    private final String[] MENU_EX4 = {"\n...:: Exemplo com Data Access Object (DAO) ::...\n",
+            "1 - Cadastrar pessoa",
+            "2 - Listar todas pessoas",
+            "3 - Voltar ao menu anterior"
+    };
+
+
     private Scanner teclado;
 
     public Principal() {
@@ -39,6 +61,18 @@ public class Principal {
             switch (opcao) {
                 case 1:
                     p.exemplo01();
+                    break;
+                case 2:
+                    p.exemplo02();
+                    break;
+                case 3:
+                    p.exemplo03();
+                    break;
+                case 4:
+                    p.exemplo04();
+                    break;
+                case 5:
+                    p.exemplo05();
                     break;
             }
         } while (opcao != 6);
@@ -70,11 +104,11 @@ public class Principal {
     }
 
     /**
-     * Executará a classe do pacote exemplo01
+     * Executará métodos da classe no pacote exemplo01
      *
      * @throws Exception
      */
-    public void exemplo01() throws SQLException {
+    private void exemplo01() throws SQLException {
         int opcao;
         ExemploMuitoSimples app = new ExemploMuitoSimples();
         try {
@@ -148,4 +182,107 @@ public class Principal {
             System.err.println("ERRO: Dados fornecidos estão em um formato diferente do esperado.");
         }
     }
+
+    /**
+     * Executará métodos da classe no pacote exemplo02
+     */
+    private void exemplo02() {
+        PadroesDeProjeto app = new PadroesDeProjeto();
+        System.out.println(app.listarPessoas());
+    }
+
+    /**
+     * Executará métodos da classe no pacote exemplo03
+     */
+    private void exemplo03() {
+        int opcao;
+        UsandoPreparedStmt app = new UsandoPreparedStmt();
+        try {
+            do {
+                opcao = this.menu(this.MENU_EX3);
+
+                switch (opcao) {
+                    case 1:
+                        System.out.println(app.listarPessoas());
+                        break;
+                    case 2:
+                        System.out.print("Informe o ID da pessoa: ");
+                        int idPessoa = teclado.nextInt();
+                        System.out.println(app.listarDadosDeUmaPessoa(idPessoa));
+                        break;
+                    case 3:
+                        System.out.println(app.listarPessoas());
+                        System.out.print("Informe o ID da pessoa que irá alterar o email: ");
+                        idPessoa = teclado.nextInt();
+                        System.out.print("Entre com o email: ");
+                        String email = this.teclado.next();
+                        if (app.atualizaEmail(idPessoa, email) > 0) {
+                            System.out.println("Email atualizado com sucesso");
+                        } else {
+                            System.out.println("Não foi possível atualizar o email.");
+                        }
+                        break;
+                }
+            } while (opcao != 4);
+        } catch (InputMismatchException e) {
+            System.err.println("ERRO: Dados fornecidos estão em um formato diferente do esperado.");
+        }
+    }
+
+    /**
+     * Executará métodos da classe no pacote exemplo04
+     */
+    private void exemplo04() {
+        int opcao;
+        UsandoDAO app = new UsandoDAO();
+        try {
+            do {
+                opcao = this.menu(this.MENU_EX4);
+
+                switch (opcao) {
+                    case 1:
+                        try {
+                            teclado.nextLine();// consumindo caracter extra NL/CR
+                            System.out.print("Entre com o nome: ");
+                            String nome = teclado.nextLine();
+                            System.out.print("Entre com o email: ");
+                            String email = teclado.nextLine();
+                            System.out.print("Entre com o peso: ");
+                            double peso = teclado.nextDouble();
+                            System.out.print("Entre com a altura: ");
+                            int altura = teclado.nextInt();
+
+                            // Criando uma Pessoa
+                            Pessoa p = new Pessoa(nome, peso, altura, email);
+
+                            boolean resultado = app.cadastrarPessoa(p);
+
+                            if (resultado) {
+                                System.out.println("\nPessoa cadastrada com sucesso.\n");
+                            } else {
+                                System.out.println("\nHouve algum problema e não foi possível cadastrar");
+                            }
+                        } catch (Exception e) {
+                            System.err.println("\nErro com os dados fornecidos. Tente novamente.\n");
+                        }
+
+                        break;
+                    case 2:
+                        System.out.println(app.listarPessoas());
+                        break;
+                }
+            } while (opcao != 3);
+        } catch (InputMismatchException e) {
+            System.err.println("ERRO: Dados fornecidos estão em um formato diferente do esperado.");
+        }
+    }
+
+    /**
+     * Executará métodos da classe no pacote exemplo05mysql
+     */
+    private void exemplo05() {
+        //TODO Esse método precisa ser implementado por você. Precisará ter um servidor MySQL em execução
+        System.out.println("Esse método precisa ser implementado. Precisará ter um servidor MySQL em execução");
+    }
+
 }
