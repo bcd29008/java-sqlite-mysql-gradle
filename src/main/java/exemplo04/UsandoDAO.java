@@ -6,44 +6,29 @@ import exemplo04.entities.PessoaDAO;
 import java.util.List;
 
 /**
- * Essa classe apresenta um exemplo de como usar o padrão de projeto Direct Access Object (DAO)
+ * Essa classe apresenta um exemplo de como usar o padrão de projeto Data Access Object (DAO)
  */
 public class UsandoDAO {
 
-
-    public static void inserirPessoa() {
-
-        Pessoa p = new Pessoa("Juca Teste", 60, 160, "juca@teste.com");
-
-        PessoaDAO.adiciona(p);
-
+    public boolean cadastrarPessoa(Pessoa p) {
+        return PessoaDAO.adiciona(p);
     }
 
-
-    public static void listarPessoas() {
+    public String listarPessoas() {
         List<Pessoa> pessoas = PessoaDAO.listarTodas();
 
-        System.out.println("---------------------------------------------------------------------------------");
-        System.out.println(String.format("|%-5s|%-25s|%-10s|%-10s|%-25s|", "ID", "Nome", "Peso", "Altura", "Email"));
-        System.out.println("---------------------------------------------------------------------------------");
+        StringBuilder sb = new StringBuilder();
 
-        // Varrendo lista de pessoas
-        pessoas.forEach(pessoa -> {
-            System.out.println(pessoa);
-        });
+        sb.append("---------------------------------------------------------------------------------\n");
+        sb.append(String.format("|%-5s|%-25s|%-10s|%-10s|%-25s|\n", "ID", "Nome", "Peso", "Altura", "Email"));
+        sb.append("---------------------------------------------------------------------------------\n");
 
-        System.out.println("---------------------------------------------------------------------------------");
+        // Varrendo lista de pessoas e concatenando no StringBuilder usando lambda
+        // https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html
+        pessoas.forEach(pessoa -> sb.append(pessoa + "\n"));
 
+        sb.append("---------------------------------------------------------------------------------\n");
 
-    }
-
-
-    public static void main(String[] args) {
-
-        //inserirPessoa();
-
-        listarPessoas();
-
-
+        return sb.toString();
     }
 }

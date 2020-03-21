@@ -19,11 +19,11 @@ import java.util.List;
  *
  * @author Emerson Ribeiro de Mello
  */
-public class PessoaDAO {
+public abstract class PessoaDAO {
 
 
-    public static void adiciona(Pessoa p) {
-
+    public final static boolean adiciona(Pessoa p) {
+        boolean resultado = false;
         String sql = "INSERT INTO Pessoa (nome, peso, altura, email) VALUES (?,?,?,?)";
 
         // Try-with-resources irá fechar automaticamente a conexão
@@ -35,14 +35,15 @@ public class PessoaDAO {
             stmt.setInt(3, p.getAltura());
             stmt.setString(4, p.getEmail());
 
-            stmt.execute();
+            resultado = stmt.execute();
 
         } catch (SQLException ex) {
             System.err.println(ex.toString());
         }
+        return resultado;
     }
 
-    public static List<Pessoa> listarTodas() {
+    public final static List<Pessoa> listarTodas() {
         List<Pessoa> pessoas = new ArrayList<>();
         String sql = "SELECT * from Pessoa";
 
@@ -57,7 +58,7 @@ public class PessoaDAO {
                         rs.getDouble("peso"),
                         rs.getInt("altura"),
                         rs.getString("email"));
-
+                c.setIdPessoa(rs.getInt("idPessoa"));
                 pessoas.add(c);
             }
         } catch (SQLException ex) {

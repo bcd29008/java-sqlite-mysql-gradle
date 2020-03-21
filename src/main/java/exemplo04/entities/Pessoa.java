@@ -1,5 +1,8 @@
 package exemplo04.entities;
 
+/**
+ * Plain Old Java Object (POJO) para Pessoa
+ */
 public class Pessoa {
     private int idPessoa;
     private String nome;
