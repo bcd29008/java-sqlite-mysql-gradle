@@ -10,21 +10,24 @@ Execute a classe [bcd.Principal](src/main/java/bcd/Principal.java) e a partir de
 
 Código simples para apresentar os conceitos básicos para consulta, inserção, alteração e remoção de linhas em um banco de dados SQLite.
 
-
-
 ## Exemplo 02 - SQLite
 
-Código que apresenta uma organização que segue padrões de projeto de software (*Design Patterns*) para acessar banco de dados
+Código que apresenta uma organização que segue padrões de projeto de software (*Design Patterns*) para acessar banco de dados. Nesse caso, foi criada uma classe abstrata [ConnectionFactory.java](src/main/java/exemplo02/db/ConnectionFactory.java) que é uma fábrica de conexões com o banco.
+
+Também é feito uso do recurso [try-with-resources](https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html) do Java para fechar a conexão após o uso.
 
 
 ## Exemplo 03 - SQLite
 
-Apresenta o uso da classe PreparedStatement, preferível em relação ao Statment principalmente por evitar problemas com *SQL Injection*.
+Apresenta o uso da classe [PreparedStatement](https://docs.oracle.com/javase/tutorial/jdbc/basics/prepared.html), preferível em relação ao Statement principalmente por evitar problemas com [*SQL Injection*](https://pt.wikipedia.org/wiki/Inje%C3%A7%C3%A3o_de_SQL).
+
+![SQL Injection](exploits_of_a_mom.png)
+https://xkcd.com/327/
 
 
 ## Exemplo 04 - SQLite
 
-Apresenta o uso do padrão de projeto Direct Access Object (DAO)
+Apresenta o uso do padrão de projeto [*Data Access Object* (DAO)](https://pt.wikipedia.org/wiki/Objeto_de_acesso_a_dados).
 
 ## Exemplo 05 - MySQL
 

@@ -1,7 +1,5 @@
 package exemplo02.db;
 
-import org.sqlite.JDBC;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -10,7 +8,7 @@ import java.sql.SQLException;
  * Classe responsável por criar conexões com o banco
  */
 public abstract class ConnectionFactory {
-    private static final String dbPath = "src/main/resources/lab01.sqlite";
+    private static final String DB_URI = "jdbc:sqlite:src/main/resources/lab01.sqlite";
     private static Connection cnx;
 
     /**
@@ -20,8 +18,7 @@ public abstract class ConnectionFactory {
      */
     public static synchronized Connection getDBConnection() {
         try {
-            DriverManager.registerDriver(new JDBC());
-            cnx = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+            cnx = DriverManager.getConnection(DB_URI);
 
         } catch (SQLException e) {
             e.printStackTrace();
