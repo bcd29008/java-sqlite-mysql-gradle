@@ -10,12 +10,13 @@ Execute a classe [bcd.Principal](src/main/java/bcd/Principal.java) e a partir de
 
 Código simples para apresentar os conceitos básicos para consulta, inserção, alteração e remoção de linhas em um banco de dados SQLite.
 
+É feito uso do recurso [try-with-resources](https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html) do Java para fechar a conexão após o uso.
+
 ## Exemplo 02 - SQLite
 
 Código que apresenta uma organização que segue padrões de projeto de software (*Design Patterns*) para acessar banco de dados. Nesse caso, foi criada uma classe abstrata [ConnectionFactory.java](src/main/java/exemplo02/db/ConnectionFactory.java) que é uma fábrica de conexões com o banco.
 
-Também é feito uso do recurso [try-with-resources](https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html) do Java para fechar a conexão após o uso.
-
+É feito uso do recurso [try-with-resources](https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html) do Java para fechar a conexão após o uso.
 
 ## Exemplo 03 - SQLite
 
@@ -42,18 +43,18 @@ Para conectar em um banco MySQL é necessário informar:
 
 Essas informações devem ser informadas no arquivo [ConnectionFactory.java](src/main/java/exemplo05mysql/db/ConnectionFactory.java).
 
-Se você tiver uma instalação própria do MySQL, então use o arquivo [lab01-dml-ddl.sql](src/main/resources/lab01-dml-ddl.sql) para criar as tabelas, bem como inserir os registros, necessários para esse exemplo 05. Os comandos abaixo devem ser executados, porém, no cliente mysql no terminal:
+Se você tiver uma instalação própria do MySQL, então use o arquivo [lab01-mysql-dml-ddl.sql](src/main/resources/lab01-mysql-dml-ddl.sql) para criar as tabelas, bem como inserir os registros, necessários para esse exemplo 05. Os comandos abaixo devem ser executados, porém, no cliente mysql no terminal:
 ```SQL
 CREATE DATABASE lab01;
 
-CREATE USER IF NOT EXISTS 'aluno'@'%' IDENTIFIED by '1234';
+CREATE USER IF NOT EXISTS 'aluno'@'%' IDENTIFIED WITH mysql_native_password by '1234';
 GRANT ALL ON lab01.* TO 'aluno'@'%';
 
 USE lab01;
-SOURCE lab01-dml-ddl.sql
+SOURCE lab01-mysql-dml-ddl.sql
 ```
 
-Os comandos acima criaram um esquema chamado `lab01`, um usuário `aluno` com a senha `1234` e com total permissão sobre o esquema `lab01`. Por fim, executou o *script* `lab01-dml-ddl.sql`.
+Os comandos acima criaram um esquema chamado `lab01`, um usuário `aluno` com a senha `1234` e com total permissão sobre o esquema `lab01`. Por fim, executou o *script* `lab01-mysql-dml-ddl.sql`.
 
 
 ## Como usar o IntelliJ Ultimate para acessar o banco de dados
