@@ -108,7 +108,7 @@ public class Principal {
      *
      * @throws Exception
      */
-    private void exemplo01() throws SQLException {
+    private void exemplo01() {
         int opcao;
         ExemploMuitoSimples app = new ExemploMuitoSimples();
         try {
