@@ -12,6 +12,8 @@ import java.sql.Statement;
  */
 public class PadroesDeProjeto {
 
+    private final String DIVISOR = "---------------------------------------------------------------------------------\n";
+
     public String listarPessoas() {
 
         // Criando objeto para guardar o resultado
@@ -28,9 +30,9 @@ public class PadroesDeProjeto {
                 sb.append("\nNenhuma pessoa cadastrada no banco\n");
             } else {
                 // Formantado a saída para melhorar a apresentação para o usuário
-                sb.append("---------------------------------------------------------------------------------\n");
+                sb.append(DIVISOR);
                 sb.append(String.format("|%-5s|%-25s|%-10s|%-10s|%-25s|\n", "ID", "Nome", "Peso", "Altura", "Email"));
-                sb.append("---------------------------------------------------------------------------------\n");
+                sb.append(DIVISOR);
 
                 // Percorrendo todas as linhas resultantes da consulta SQL
                 do {
@@ -41,7 +43,7 @@ public class PadroesDeProjeto {
                             rs.getInt("altura"),// é necessário saber o nome da coluna e o domínio dos dados
                             rs.getString("email")));
                 } while (rs.next());
-                sb.append("---------------------------------------------------------------------------------");
+                sb.append(DIVISOR);
             }
         } catch (SQLException e) {
             e.printStackTrace();

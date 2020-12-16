@@ -12,6 +12,8 @@ import java.sql.SQLException;
  * essa evita os problemas com SQL Injection presentes no exemplo01
  */
 public class UsandoPreparedStmt {
+    private final String DIVISOR = "---------------------------------------------------------------------------------\n";
+
 
     public String listarPessoas() {
         StringBuilder sb = new StringBuilder();
@@ -26,9 +28,9 @@ public class UsandoPreparedStmt {
                 sb.append("\nNenhuma pessoa cadastrada no banco\n");
             } else {
                 // Formantado a saída para melhorar a apresentação para o usuário
-                sb.append("---------------------------------------------------------------------------------\n");
+                sb.append(DIVISOR);
                 sb.append(String.format("|%-5s|%-25s|%-10s|%-10s|%-25s|\n", "ID", "Nome", "Peso", "Altura", "Email"));
-                sb.append("---------------------------------------------------------------------------------\n");
+                sb.append(DIVISOR);
 
                 // Percorrendo todas as linhas resultantes da consulta SQL
                 do {
@@ -39,7 +41,7 @@ public class UsandoPreparedStmt {
                             rs.getInt("altura"),// é necessário saber o nome da coluna e o domínio dos dados
                             rs.getString("email")));
                 } while (rs.next());
-                sb.append("---------------------------------------------------------------------------------");
+                sb.append(DIVISOR);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -66,9 +68,9 @@ public class UsandoPreparedStmt {
                 sb.append("\nNenhuma pessoa cadastrada no banco\n");
             } else {
                 // Formantado a saída para melhorar a apresentação para o usuário
-                sb.append("---------------------------------------------------------------------------------\n");
+                sb.append(DIVISOR);
                 sb.append(String.format("|%-5s|%-25s|%-10s|%-10s|%-25s|\n", "ID", "Nome", "Peso", "Altura", "Email"));
-                sb.append("---------------------------------------------------------------------------------\n");
+                sb.append(DIVISOR);
 
                 // Percorrendo todas as linhas resultantes da consulta SQL
                 do {
@@ -79,7 +81,7 @@ public class UsandoPreparedStmt {
                             rs.getInt("altura"),// é necessário saber o nome da coluna e o domínio dos dados
                             rs.getString("email")));
                 } while (rs.next());
-                sb.append("---------------------------------------------------------------------------------");
+                sb.append(DIVISOR);
             }
             rs.close();
         } catch (SQLException e) {

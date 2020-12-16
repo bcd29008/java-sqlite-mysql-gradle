@@ -9,7 +9,7 @@ import java.sql.SQLException;
 /**
  * Um pequeno exemplo de como fazer uma fábrica de conexões para MySQL.
  * <p>
- * O arquivo resources/lab01-dml-ddl.sql contém as instruções DML e DDL para criação
+ * O arquivo resources/lab01-mysql-dml-ddl.sql contém as instruções DML e DDL para criação
  * do banco de dados necessário para esse exemplo. Crie um esquema em uma instalação
  * MySQL / MariaDB e importe o conteúdo desse arquivo.
  * <p>
