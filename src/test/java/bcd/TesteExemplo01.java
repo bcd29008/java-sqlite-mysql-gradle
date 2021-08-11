@@ -2,7 +2,6 @@ package bcd;
 
 import exemplo01.ExemploMuitoSimples;
 import exemplo05mysql.db.ConnectionFactory;
-import org.junit.Test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,9 +9,9 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Classe para executar testes de unidade no Exemplo Simples com SQLite
@@ -51,7 +50,7 @@ public class TesteExemplo01 {
     @Test
     public void listarRegistros() {
         String registros = this.app.listarRegistros();
-        assertFalse("Banco sem registros iniciais", registros.equals(""));
+        assertFalse(registros.equals(""), "Banco sem registros iniciais");
         Logger.getLogger(TesteExemplo01.class.getName()).log(Level.INFO, "\n" + registros);
     }
 

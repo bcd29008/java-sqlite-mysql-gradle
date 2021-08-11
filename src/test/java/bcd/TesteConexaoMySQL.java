@@ -1,10 +1,10 @@
 package bcd;
 
 import exemplo05mysql.db.ConnectionFactory;
-import org.junit.Test;
-
 import java.sql.Connection;
-import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 /**
@@ -16,8 +16,6 @@ public class TesteConexaoMySQL {
     public void testarConexao(){
         Connection conexao = ConnectionFactory.getDBConnection();
 
-        assertNotNull("Não foi possível conectar no servidor MySQL",conexao);
+        assertNotNull(conexao, "Não foi possível conectar no servidor MySQL");
     }
-
-
 }

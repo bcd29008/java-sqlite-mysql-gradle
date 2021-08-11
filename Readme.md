@@ -63,3 +63,37 @@ O IntelliJ tem um cliente para bancos de dados o qual permite fazer consultas, i
 
 - [Documentação oficial para SQLite](https://www.jetbrains.com/help/idea/connecting-to-a-database.html#connect-to-sqlite-database).
 - [Documentação oficial para MySQL](https://www.jetbrains.com/help/idea/connecting-to-a-database.html#connect-to-mysql-database)
+
+## Como criar um Jar executável com o gradle
+
+Foi feito uso do [Gradle Shadow plugin](https://imperceptiblethoughts.com/shadow/) para empacotar toda a aplicação Java,  junto com suas dependências (i.e. bibliotecas do SQLite e do MySQL), dentro de um único arquivo `.jar`. Para tal foi  necessário indicar qual o nome da classe principal, aquela com o método `public static void main(String[] args)`, pois é essa que será executada. 
+
+Nesse projeto, tal classe é `bcd.Principal`.  Sendo assim, foi necessário incluir as seguintes linhas no  arquivo [`build.gradle`](build.gradle). 
+
+```groovy
+plugins {
+    // Gradle Shadow plugin
+    id 'com.github.johnrengelman.shadow' version '4.0.0'
+    id 'java'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'bcd.Principal'
+    }
+}
+```
+
+Por fim, compile o projeto (sem executar os testes de unidade) com o comando `./gradlew build -x test` e execute a aplicação com a linha abaixo:
+
+```bash
+java -jar build/libs/bcd-1.0-all.jar
+```
+
+## Para atualizar a versão do gradle
+
+Veja documentação oficial que está disponível em https://docs.gradle.org/current/userguide/upgrading_version_7.html
+
+```bash
+gradle wrapper --gradle-version 7.1.1
+```

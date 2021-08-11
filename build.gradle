@@ -1,6 +1,7 @@
 plugins {
     id 'java'
-    id 'application'
+    // Para gerar um 'fat JAR'  
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
 group 'engtelecom'
@@ -12,17 +13,27 @@ repositories {
     mavenCentral()
 }
 
-application {
-    // Define a classe principal da aplicação
-    mainClass = 'bcd.Principal'
+// Para gerar um JAR executável
+jar {
+    manifest {
+        // Classe principal da aplicação
+        attributes "Main-Class": "bcd.Principal"
+    }
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    // Para fazer testes parametrizados
+    // https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.7.0'
 
     // Driver JDBC para o SQLite
-    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.34.0'
+    // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+    implementation 'org.xerial:sqlite-jdbc:3.36.0.1'
 
     // Driver JDBC para o MySQL
-    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.22'
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation 'mysql:mysql-connector-java:8.0.26'
 }
