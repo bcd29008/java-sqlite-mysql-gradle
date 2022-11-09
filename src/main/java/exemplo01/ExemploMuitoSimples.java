@@ -2,6 +2,8 @@ package exemplo01;
 
 import java.sql.*;
 
+import org.sqlite.SQLiteConfig;
+
 
 /**
  * Exemplo didático de como trabalhar com SQLite e Java.
@@ -15,13 +17,29 @@ import java.sql.*;
 public class ExemploMuitoSimples {
     /**
      * Localização onde ficará o banco de dados SQLite
+     * 
+     * Outra opção seria ter um banco somente na memória com a String: "jdbc:sqlite:"
      */
-    private final String DB_URI = "jdbc:sqlite:src/main/resources/lab01.sqlite";
+    private String DB_URI = "jdbc:sqlite:src/main/resources/lab01.sqlite";
+    
+    /**
+     * Para enviar configurações na conexão com o SQLite
+     */
+    private SQLiteConfig sqLiteConfig;
 
     private final String DIVISOR = "---------------------------------------------------------------------------------\n";
 
-    public String getDB_URI(){
-        return this.DB_URI;
+    
+    public ExemploMuitoSimples(String dB_URI) {
+        this();
+        DB_URI = dB_URI;
+    }
+
+    public ExemploMuitoSimples(){
+        this.sqLiteConfig = new SQLiteConfig();
+        // Para ativar a restrição de chave estrangeira (e.g. PRAGMA foreign_keys = ON;)
+        // https://www.sqlite.org/foreignkeys.html
+        sqLiteConfig.enforceForeignKeys(true);
     }
 
     /**
@@ -48,7 +66,7 @@ public class ExemploMuitoSimples {
             resultado = stmt.executeUpdate(sql);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erro: " +  e);
         }
 
         // retorna o número de linhas que foram alteradas no banco. No caso, deve-se ser igual 1
@@ -72,7 +90,7 @@ public class ExemploMuitoSimples {
             resultado = stmt.executeUpdate(sql);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erro: " +  e);
         }
 
         // retorna o número de linhas que foram alteradas no banco. No caso, deve-se ser igual 1
@@ -94,7 +112,7 @@ public class ExemploMuitoSimples {
             // Executando instrução para atualizar a tabela no banco de dados
             resultado = stmt.executeUpdate(sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erro: " +  e);
         }
         return resultado;
     }
@@ -134,7 +152,7 @@ public class ExemploMuitoSimples {
                 sb.append(DIVISOR);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erro: " +  e);
         }
         return sb.toString();
     }
@@ -179,8 +197,33 @@ public class ExemploMuitoSimples {
                 } while (rs.next());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erro: " +  e);
         }
         return sb.toString();
+    }
+
+    /**
+     * Irá apagar a tabela Pessoa e criar novamente com um único registro
+     */
+    public boolean criaBancoDeDados(){
+        try (Connection conexao = DriverManager.getConnection(DB_URI);
+             Statement statement = conexao.createStatement();) {
+
+            statement.executeUpdate("drop table if exists Pessoa");
+
+            statement.executeUpdate("create table Pessoa ( idPessoa INTEGER not null\n" +
+                    " primary key AUTOINCREMENT,\n" +
+                    " Nome     TEXT    not null,\n" +
+                    " Peso     REAL,\n" +
+                    " Altura   INTEGER,\n" +
+                    " Email    Text)");
+
+            statement.executeUpdate("INSERT INTO Pessoa (Nome, Peso, Altura, Email) " +
+                    "VALUES ('Aluno Teste', 85.2, 180, 'aluno@teste.com.br')");
+        } catch (Exception e) {
+            System.err.println("Erro: " +  e);
+            return false;
+        }
+        return true;
     }
 }
