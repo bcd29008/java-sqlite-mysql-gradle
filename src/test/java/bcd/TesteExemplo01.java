@@ -1,8 +1,6 @@
 package bcd;
 
 import exemplo01.ExemploMuitoSimples;
-import exemplo05mysql.db.ConnectionFactory;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;

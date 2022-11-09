@@ -1,8 +1,12 @@
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Build Status](https://travis-ci.org/bcd29008/java-sqlite-mysql-gradle.svg?branch=master)](https://travis-ci.org/bcd29008/java-sqlite-mysql-gradle)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 # Exemplos em Java com SQLite e MySQL / MariaDB
 
 Esse projeto é composto de pequenos exemplos em Java para acessar banco de dados SQLite e MySQL / MariaDB usando [JDBC 4](https://docs.oracle.com/javase/tutorial/jdbc/basics/connecting.html).
+
+- Para os exemplos com SQLite é feito uso do [SQLite JDBC Driver](https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc)
+  - Veja [exemplos de uso aqui](https://github.com/xerial/sqlite-jdbc/blob/master/USAGE.md)
+- Para os exemplos com o MySQL é feito uso do [MySQL Connector Java](https://mvnrepository.com/artifact/mysql/mysql-connector-java)
 
 Execute a classe [bcd.Principal](src/main/java/bcd/Principal.java) e a partir dessa será possível invocar os exemplos apresentados abaixo.
 

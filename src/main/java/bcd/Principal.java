@@ -6,7 +6,6 @@ import exemplo03.UsandoPreparedStmt;
 import exemplo04.UsandoDAO;
 import exemplo04.entities.Pessoa;
 
-import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
