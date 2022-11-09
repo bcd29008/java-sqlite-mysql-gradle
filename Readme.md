@@ -77,7 +77,7 @@ Nesse projeto, tal classe é `bcd.Principal`.  Sendo assim, foi necessário incl
 ```groovy
 plugins {
     // Gradle Shadow plugin
-    id 'com.github.johnrengelman.shadow' version '4.0.0'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
     id 'java'
 }
 
@@ -99,5 +99,5 @@ java -jar build/libs/bcd-1.0-all.jar
 Veja documentação oficial que está disponível em https://docs.gradle.org/current/userguide/upgrading_version_7.html
 
 ```bash
-gradle wrapper --gradle-version 7.1.1
+gradle wrapper --gradle-version 7.5.1
 ```
