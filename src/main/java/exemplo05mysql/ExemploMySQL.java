@@ -2,6 +2,7 @@ package exemplo05mysql;
 
 import exemplo05mysql.db.ConnectionFactory;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,8 +20,9 @@ public class ExemploMySQL {
 
     /**
      * Listando todos as linhas e colunas da tabela Departamento
+     * @throws IOException
      */
-    public String listarDadosDeTodosDepartamentos() {
+    public String listarDadosDeTodosDepartamentos() throws IOException {
         StringBuilder sb = new StringBuilder();
 
         String query = "SELECT * FROM Departamento";

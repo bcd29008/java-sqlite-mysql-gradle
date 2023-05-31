@@ -3,6 +3,7 @@ package exemplo04;
 import exemplo04.entities.Pessoa;
 import exemplo04.entities.PessoaDAO;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -12,11 +13,11 @@ public class UsandoDAO {
     private final String DIVISOR = "---------------------------------------------------------------------------------\n";
 
 
-    public boolean cadastrarPessoa(Pessoa p) {
+    public boolean cadastrarPessoa(Pessoa p) throws SQLException {
         return PessoaDAO.adiciona(p);
     }
 
-    public String listarPessoas() {
+    public String listarPessoas() throws SQLException {
         List<Pessoa> pessoas = PessoaDAO.listarTodas();
 
         StringBuilder sb = new StringBuilder();

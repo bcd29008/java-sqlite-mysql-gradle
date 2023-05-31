@@ -14,7 +14,7 @@ public class PadroesDeProjeto {
 
     private final String DIVISOR = "---------------------------------------------------------------------------------\n";
 
-    public String listarPessoas() {
+    public String listarPessoas() throws SQLException {
 
         // Criando objeto para guardar o resultado
         StringBuilder sb = new StringBuilder();
@@ -46,7 +46,7 @@ public class PadroesDeProjeto {
                 sb.append(DIVISOR);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException(e);
         }
         return sb.toString();
     }

@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Data Access Object (DAO)
  * <p>
@@ -21,14 +20,13 @@ import java.util.List;
  */
 public abstract class PessoaDAO {
 
-
-    public final static boolean adiciona(Pessoa p) {
+    public final static boolean adiciona(Pessoa p) throws SQLException {
         boolean resultado = false;
         String sql = "INSERT INTO Pessoa (nome, peso, altura, email) VALUES (?,?,?,?)";
 
         // Try-with-resources irá fechar automaticamente a conexão
         try (Connection conexao = ConnectionFactory.getDBConnection();
-             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+                PreparedStatement stmt = conexao.prepareStatement(sql)) {
 
             stmt.setString(1, p.getNome());
             stmt.setDouble(2, p.getPeso());
@@ -38,18 +36,18 @@ public abstract class PessoaDAO {
             resultado = stmt.execute();
 
         } catch (SQLException ex) {
-            System.err.println(ex.toString());
+            throw new SQLException(ex);
         }
         return resultado;
     }
 
-    public final static List<Pessoa> listarTodas() {
+    public final static List<Pessoa> listarTodas() throws SQLException {
         List<Pessoa> pessoas = new ArrayList<>();
         String sql = "SELECT * from Pessoa";
 
         try (Connection conexao = ConnectionFactory.getDBConnection();
-             PreparedStatement stmt = conexao.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+                PreparedStatement stmt = conexao.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
 
@@ -62,7 +60,7 @@ public abstract class PessoaDAO {
                 pessoas.add(c);
             }
         } catch (SQLException ex) {
-            System.err.println(ex.toString());
+            throw new SQLException(ex);
         }
 
         return pessoas;

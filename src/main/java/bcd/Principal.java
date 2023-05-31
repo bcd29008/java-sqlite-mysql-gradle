@@ -5,7 +5,10 @@ import exemplo02.PadroesDeProjeto;
 import exemplo03.UsandoPreparedStmt;
 import exemplo04.UsandoDAO;
 import exemplo04.entities.Pessoa;
+import exemplo05mysql.ExemploMySQL;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -19,7 +22,7 @@ public class Principal {
             "5 - Exemplo 05 - MySQL",
             "6 - Sair do programa"
     };
-    private final String[] MENU_EX1 = {"\n...:: Exemplo com SQLite ::...\n",
+    private final String[] MENU_EX1 = { "\n...:: Exemplo com SQLite ::...\n",
             "1 - Cadastrar pessoa",
             "2 - Alterar dados de uma pessoa",
             "3 - Excluir uma pessoa",
@@ -27,18 +30,17 @@ public class Principal {
             "5 - Listar todas pessoas",
             "6 - Voltar ao menu anterior"
     };
-    private final String[] MENU_EX3 = {"\n...:: Exemplo com PreparedStatement ::...\n",
+    private final String[] MENU_EX3 = { "\n...:: Exemplo com PreparedStatement ::...\n",
             "1 - Listar todas pessoas",
             "2 - Listar dados de uma pessoa",
             "3 - Atualizar email de uma pessoa",
             "4 - Voltar ao menu anterior"
     };
-    private final String[] MENU_EX4 = {"\n...:: Exemplo com Data Access Object (DAO) ::...\n",
+    private final String[] MENU_EX4 = { "\n...:: Exemplo com Data Access Object (DAO) ::...\n",
             "1 - Cadastrar pessoa",
             "2 - Listar todas pessoas",
             "3 - Voltar ao menu anterior"
     };
-
 
     private Scanner teclado;
 
@@ -50,7 +52,8 @@ public class Principal {
      * Método principal
      *
      * @param args
-     * @throws Exception Exceções não serão tratadas, apenas encaminhadas para o sistema operacional
+     * @throws Exception Exceções não serão tratadas, apenas encaminhadas para o
+     *                   sistema operacional
      */
     public static void main(String[] args) throws Exception {
         Principal p = new Principal();
@@ -86,13 +89,15 @@ public class Principal {
     private int menu(String[] menuComOpcoes) {
         int opcao = -1;
         if (menuComOpcoes != null) {
+
             for (String linha : menuComOpcoes) {
                 System.out.println(linha);
             }
-            System.out.print("Entre com uma opção: ");
+
             try {
+                System.out.print("Entre com uma opção: ");
                 opcao = teclado.nextInt();
-            } catch (Exception e) {
+            } catch (InputMismatchException e) {
                 System.err.println("Erro. Informe um número inteiro.");
                 opcao = -1;
                 teclado.nextLine();// consumindo caracter extra NL/CR
@@ -104,10 +109,10 @@ public class Principal {
 
     /**
      * Executará métodos da classe no pacote exemplo01
-     *
+     * 
      * @throws Exception
      */
-    private void exemplo01() {
+    private void exemplo01() throws Exception {
         int opcao;
         ExemploMuitoSimples app = new ExemploMuitoSimples();
         try {
@@ -184,16 +189,20 @@ public class Principal {
 
     /**
      * Executará métodos da classe no pacote exemplo02
+     * 
+     * @throws SQLException
      */
-    private void exemplo02() {
+    private void exemplo02() throws SQLException {
         PadroesDeProjeto app = new PadroesDeProjeto();
         System.out.println(app.listarPessoas());
     }
 
     /**
      * Executará métodos da classe no pacote exemplo03
+     * 
+     * @throws SQLException
      */
-    private void exemplo03() {
+    private void exemplo03() throws SQLException {
         int opcao;
         UsandoPreparedStmt app = new UsandoPreparedStmt();
         try {
@@ -230,8 +239,10 @@ public class Principal {
 
     /**
      * Executará métodos da classe no pacote exemplo04
+     * 
+     * @throws SQLException
      */
-    private void exemplo04() {
+    private void exemplo04() throws SQLException {
         int opcao;
         UsandoDAO app = new UsandoDAO();
         try {
@@ -278,10 +289,15 @@ public class Principal {
 
     /**
      * Executará métodos da classe no pacote exemplo05mysql
+     * 
+     * @throws IOException
      */
-    private void exemplo05() {
-        //TODO Esse método precisa ser implementado por você. Precisará ter um servidor MySQL em execução
-        System.out.println("Esse método precisa ser implementado. Precisará ter um servidor MySQL em execução");
+    private void exemplo05() throws IOException {
+
+        ExemploMySQL exemploMySQL = new ExemploMySQL();
+
+        System.out.println(exemploMySQL.listarDadosDeTodosDepartamentos());
+
     }
 
 }

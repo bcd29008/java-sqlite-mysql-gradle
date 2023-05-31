@@ -15,7 +15,7 @@ public class UsandoPreparedStmt {
     private final String DIVISOR = "---------------------------------------------------------------------------------\n";
 
 
-    public String listarPessoas() {
+    public String listarPessoas() throws SQLException {
         StringBuilder sb = new StringBuilder();
 
         String query = "SELECT * FROM Pessoa";
@@ -44,12 +44,12 @@ public class UsandoPreparedStmt {
                 sb.append(DIVISOR);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException(e);
         }
         return sb.toString();
     }
 
-    public String listarDadosDeUmaPessoa(int idPessoa) {
+    public String listarDadosDeUmaPessoa(int idPessoa) throws SQLException {
         StringBuilder sb = new StringBuilder();
 
         // Ao invés de concatenar o parâmetro idPessoa, coloca-se uma interrogação
@@ -85,12 +85,12 @@ public class UsandoPreparedStmt {
             }
             rs.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException(e);
         }
         return sb.toString();
     }
 
-    public int atualizaEmail(int idPessoa, String email) {
+    public int atualizaEmail(int idPessoa, String email) throws SQLException {
         int totalLinhasModificadas = 0;
 
         // Os campos com interrogação serão preenchidos abaixo
@@ -105,7 +105,7 @@ public class UsandoPreparedStmt {
             totalLinhasModificadas = stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException(e);
         }
         return totalLinhasModificadas;
     }

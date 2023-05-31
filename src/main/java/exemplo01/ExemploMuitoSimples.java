@@ -4,24 +4,28 @@ import java.sql.*;
 
 import org.sqlite.SQLiteConfig;
 
-
 /**
  * Exemplo didático de como trabalhar com SQLite e Java.
  * <p>
- * Essa classe apresenta um exemplo simples de como fazer interação com o banco de dados SQLite.
+ * Essa classe apresenta um exemplo simples de como fazer interação com o banco
+ * de dados SQLite.
  * <p>
- * Essa classe não segue as melhores práticas para trabalhar com banco de dados relacionais.
+ * Essa classe não segue as melhores práticas para trabalhar com banco de dados
+ * relacionais.
  * <p>
- * A organização apresentada nessa classe não deve ser usada em ambientes de produção.
+ * A organização apresentada nessa classe não deve ser usada em ambientes de
+ * produção.
  */
 public class ExemploMuitoSimples {
     /**
-     * Localização onde ficará o banco de dados SQLite
+     * Localização onde ficará o banco de dados SQLite. O arquivo encontra-se dentro
+     * do diretório src/main/resources
      * 
-     * Outra opção seria ter um banco somente na memória com a String: "jdbc:sqlite:"
+     * Outra opção seria ter um banco somente na memória com a String:
+     * "jdbc:sqlite:"
      */
-    private String DB_URI = "jdbc:sqlite:src/main/resources/lab01.sqlite";
-    
+    private String DB_URI = "jdbc:sqlite::resource:lab01.sqlite";
+
     /**
      * Para enviar configurações na conexão com o SQLite
      */
@@ -29,13 +33,12 @@ public class ExemploMuitoSimples {
 
     private final String DIVISOR = "---------------------------------------------------------------------------------\n";
 
-    
     public ExemploMuitoSimples(String dB_URI) {
         this();
         DB_URI = dB_URI;
     }
 
-    public ExemploMuitoSimples(){
+    public ExemploMuitoSimples() {
         this.sqLiteConfig = new SQLiteConfig();
         // Para ativar a restrição de chave estrangeira (e.g. PRAGMA foreign_keys = ON;)
         // https://www.sqlite.org/foreignkeys.html
@@ -44,17 +47,20 @@ public class ExemploMuitoSimples {
 
     /**
      * Inserindo um registro no banco
+     * 
+     * @throws SQLException
      */
-    public int cadastrarPessoa(String nome, double peso, int altura, String email) {
+    public int cadastrarPessoa(String nome, double peso, int altura, String email) throws SQLException {
         int resultado = -1;
 
-        // Try-with-resources irá fechar automaticamente a Conexão, o Statement e o ResultSet
-        // Documentação oficial: https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html
-        try (Connection conexao = DriverManager.getConnection(DB_URI);
-             Statement stmt = conexao.createStatement()) {
+        // Try-with-resources irá fechar automaticamente a Conexão, o Statement e o
+        // ResultSet
+        try (Connection conexao = DriverManager.getConnection(DB_URI, this.sqLiteConfig.toProperties());
+                Statement stmt = conexao.createStatement()) {
 
             // Concatenando entrada do usuário com a instrução SQL INSERT
-            // Essa é uma péssima prática, opte por PreparedStatement apresentado no exemplo 03
+            // Essa é uma péssima prática, opte por PreparedStatement apresentado no exemplo
+            // 03
             String sql = "INSERT INTO Pessoa (nome, peso, altura, email) VALUES ("
                     + "'" + nome + "'," // String deve ficar dentro de apóstrofos. Ex: 'joao'
                     + peso + "," // double não precisa de apóstrofos
@@ -66,23 +72,27 @@ public class ExemploMuitoSimples {
             resultado = stmt.executeUpdate(sql);
 
         } catch (SQLException e) {
-            System.err.println("Erro: " +  e);
+            throw new SQLException("Erro ao cadastrar pessoa", e);
         }
 
-        // retorna o número de linhas que foram alteradas no banco. No caso, deve-se ser igual 1
+        // retorna o número de linhas que foram alteradas no banco. No caso, deve-se ser
+        // igual 1
         return resultado;
     }
 
-    public int alterarDadosPessoa(int idPessoa, String nome, double peso, int altura, String email) {
+    public int alterarDadosPessoa(int idPessoa, String nome, double peso, int altura, String email)
+            throws SQLException {
 
         int resultado = -1;
 
-        // Try-with-resources irá fechar automaticamente a Conexão, o Statement e o ResultSet
-        // Documentação oficial: https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html
-        try (Connection conexao = DriverManager.getConnection(DB_URI);
-             Statement stmt = conexao.createStatement()) {
+        // Try-with-resources irá fechar automaticamente a Conexão, o Statement e o
+        // ResultSet
+        try (Connection conexao = DriverManager.getConnection(DB_URI, this.sqLiteConfig.toProperties());
+                Statement stmt = conexao.createStatement()) {
+
             // Concatenando entrada do usuário com a instrução SQL UPDATE
-            // Essa é uma péssima prática, opte por PreparedStatement apresentado no exemplo 03
+            // Essa é uma péssima prática, opte por PreparedStatement apresentado no exemplo
+            // 03
             String sql = "UPDATE Pessoa SET nome = '" + nome + "', peso=" + peso + ", altura=" + altura
                     + ", email = '" + email + "' WHERE idPessoa=" + idPessoa;
 
@@ -90,47 +100,52 @@ public class ExemploMuitoSimples {
             resultado = stmt.executeUpdate(sql);
 
         } catch (SQLException e) {
-            System.err.println("Erro: " +  e);
+            throw new SQLException("Erro ao alterar dados de pessoas", e);
         }
 
-        // retorna o número de linhas que foram alteradas no banco. No caso, deve-se ser igual 1
+        // retorna o número de linhas que foram alteradas no banco. No caso, deve-se ser
+        // igual 1
         return resultado;
     }
 
-    public int excluirPessoa(int idPessoa) {
+    public int excluirPessoa(int idPessoa) throws SQLException {
         int resultado = -1;
 
-        // Try-with-resources irá fechar automaticamente a Conexão, o Statement e o ResultSet
-        // Documentação oficial: https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html
-        try (Connection conexao = DriverManager.getConnection(DB_URI);
-             Statement stmt = conexao.createStatement()) {
+        // Try-with-resources irá fechar automaticamente a Conexão, o Statement e o
+        // ResultSet
+        try (Connection conexao = DriverManager.getConnection(DB_URI, this.sqLiteConfig.toProperties());
+                Statement stmt = conexao.createStatement()) {
 
             // Concatenando entrada do usuário com a instrução SQL DELETE
-            // Essa é uma péssima prática, opte por PreparedStatement apresentado no exemplo 03
+            // Essa é uma péssima prática, opte por PreparedStatement apresentado no exemplo
+            // 03
             String sql = "DELETE FROM Pessoa WHERE idPessoa = " + idPessoa;
 
             // Executando instrução para atualizar a tabela no banco de dados
             resultado = stmt.executeUpdate(sql);
         } catch (SQLException e) {
-            System.err.println("Erro: " +  e);
+            throw new SQLException("Erro ao excluir pessoas", e);
         }
         return resultado;
     }
 
     /**
      * Listando todas as colunas e linhas da tabela Pessoa
+     * 
+     * @throws SQLException
      */
-    public String listarRegistros() {
+    public String listarRegistros() throws SQLException {
         // Criando objeto para guardar o resultado
         StringBuilder sb = new StringBuilder();
 
         // Criando instrução SQL
         String sql = "SELECT * FROM Pessoa";
 
-        // Try-with-resources irá fechar automaticamente a Conexão, o Statement e o ResultSet
-        // Documentação oficial: https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html
-        try (Connection conexao = DriverManager.getConnection(DB_URI);
-             Statement stmt = conexao.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        // Try-with-resources irá fechar automaticamente a Conexão, o Statement e o
+        // ResultSet
+        try (Connection conexao = DriverManager.getConnection(DB_URI, this.sqLiteConfig.toProperties());
+                Statement stmt = conexao.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
 
             if (!rs.next()) {
                 sb.append("\nNenhuma pessoa cadastrada no banco\n");
@@ -142,17 +157,18 @@ public class ExemploMuitoSimples {
 
                 // Percorrendo todas as linhas resultantes da consulta SQL
                 do {
-                    sb.append(String.format("|%-5d|%-25s|%-10.2f|%-10d|%-25s|\n",//formatando String para melhorar apresentação
-                            rs.getInt("idPessoa"),// é necessário saber o nome da coluna e o domínio dos dados
-                            rs.getString("Nome"),// é necessário saber o nome da coluna e o domínio dos dados
-                            rs.getDouble("peso"),// é necessário saber o nome da coluna e o domínio dos dados
-                            rs.getInt("altura"),// é necessário saber o nome da coluna e o domínio dos dados
+                    sb.append(String.format("|%-5d|%-25s|%-10.2f|%-10d|%-25s|\n", // formatando String para melhorar
+                                                                                  // apresentação
+                            rs.getInt("idPessoa"), // é necessário saber o nome da coluna e o domínio dos dados
+                            rs.getString("Nome"), // é necessário saber o nome da coluna e o domínio dos dados
+                            rs.getDouble("peso"), // é necessário saber o nome da coluna e o domínio dos dados
+                            rs.getInt("altura"), // é necessário saber o nome da coluna e o domínio dos dados
                             rs.getString("email")));
                 } while (rs.next());
                 sb.append(DIVISOR);
             }
         } catch (SQLException e) {
-            System.err.println("Erro: " +  e);
+            throw new SQLException("Erro ao listar todas pessoas", e);
         }
         return sb.toString();
     }
@@ -167,9 +183,11 @@ public class ExemploMuitoSimples {
      * <p>
      * Se o usuário entrar com a String: naosei' OR '1' = '1
      * ele conseguirá retornar todas as linhas
+     * 
+     * @throws SQLException
      *
      */
-    public String listarDadosPessoa(String emailPessoa){
+    public String listarDadosPessoa(String emailPessoa) throws SQLException {
 
         // Criando objeto para guardar o resultado
         StringBuilder sb = new StringBuilder();
@@ -178,11 +196,13 @@ public class ExemploMuitoSimples {
         // Essa é uma péssima prática, o ideal é fazer uso de PreparedStatement
         String sql = "SELECT * FROM Pessoa WHERE Email = '" + emailPessoa + "'";
 
-        // Try-with-resources irá fechar automaticamente a Conexão, o Statement e o ResultSet
-        // Documentação oficial: https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html
-        try (Connection conexao = DriverManager.getConnection(DB_URI);
-             Statement stmt = conexao.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-
+        // Try-with-resources irá fechar automaticamente a Conexão, o Statement e o
+        // ResultSet
+        // Documentação oficial:
+        // https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html
+        try (Connection conexao = DriverManager.getConnection(DB_URI, this.sqLiteConfig.toProperties());
+                Statement stmt = conexao.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
 
             if (rs.next() == false) {
                 sb.append("\nNenhuma pessoa cadastrada possui o email informado\n");
@@ -197,17 +217,19 @@ public class ExemploMuitoSimples {
                 } while (rs.next());
             }
         } catch (SQLException e) {
-            System.err.println("Erro: " +  e);
+            throw new SQLException("Erro ao listar dados de pessoas", e);
         }
         return sb.toString();
     }
 
     /**
      * Irá apagar a tabela Pessoa e criar novamente com um único registro
+     * 
+     * @throws Exception
      */
-    public boolean criaBancoDeDados(){
-        try (Connection conexao = DriverManager.getConnection(DB_URI);
-             Statement statement = conexao.createStatement();) {
+    public boolean criaBancoDeDados() throws Exception {
+        try (Connection conexao = DriverManager.getConnection(DB_URI, this.sqLiteConfig.toProperties());
+                Statement statement = conexao.createStatement();) {
 
             statement.executeUpdate("drop table if exists Pessoa");
 
@@ -221,8 +243,7 @@ public class ExemploMuitoSimples {
             statement.executeUpdate("INSERT INTO Pessoa (Nome, Peso, Altura, Email) " +
                     "VALUES ('Aluno Teste', 85.2, 180, 'aluno@teste.com.br')");
         } catch (Exception e) {
-            System.err.println("Erro: " +  e);
-            return false;
+            throw new Exception("Erro ao criar tabelas", e);
         }
         return true;
     }
