@@ -21,6 +21,10 @@ run {
   standardInput = System.in
 }
 
+tasks.withType(JavaExec) {
+  standardInput = System.in
+}
+
 // Para gerar um JAR executável
 jar {
     manifest {

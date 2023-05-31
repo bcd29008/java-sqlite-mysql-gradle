@@ -26,9 +26,10 @@ Código que apresenta uma organização que segue padrões de projeto de softwar
 
 Apresenta o uso da classe [PreparedStatement](https://docs.oracle.com/javase/tutorial/jdbc/basics/prepared.html), preferível em relação ao Statement principalmente por evitar problemas com [*SQL Injection*](https://pt.wikipedia.org/wiki/Inje%C3%A7%C3%A3o_de_SQL).
 
-![SQL Injection](exploits_of_a_mom.png)
-https://xkcd.com/327/
 
+![SQL Injection](exploits_of_a_mom.png)
+
+https://xkcd.com/327/
 
 ## Exemplo 04 - SQLite
 
@@ -76,9 +77,10 @@ Nesse projeto, tal classe é `bcd.Principal`.  Sendo assim, foi necessário incl
 
 ```groovy
 plugins {
-    // Gradle Shadow plugin
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'application'
     id 'java'
+    // Gradle Shadow plugin
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 jar {
@@ -86,9 +88,14 @@ jar {
         attributes 'Main-Class': 'bcd.Principal'
     }
 }
-```
 
-Por fim, compile o projeto (sem executar os testes de unidade) com o comando `./gradlew build -x test` e execute a aplicação com a linha abaixo:
+tasks.shadowJar {
+    mergeServiceFiles()
+}
+```
+Por fim, execute a tarefa `./gradlew shadowJar` para gerar empacotar a aplicação e todas as dependências em um JAR que ficará disponível em `build/libs/bcd-1.0-all.jar`.
+
+Para executar a aplicação empacotada no JAR, execute o camando abaixo:
 
 ```bash
 java -jar build/libs/bcd-1.0-all.jar
@@ -99,5 +106,5 @@ java -jar build/libs/bcd-1.0-all.jar
 Veja documentação oficial que está disponível em https://docs.gradle.org/current/userguide/upgrading_version_7.html
 
 ```bash
-gradle wrapper --gradle-version 7.5.1
+gradle wrapper --gradle-version 8.1.1
 ```
