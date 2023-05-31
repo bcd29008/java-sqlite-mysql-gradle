@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'application'
     // Para gerar um 'fat JAR'  
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 group 'engtelecom'
@@ -15,6 +15,10 @@ repositories {
 application {
     // Define the main class for the application.
     mainClass = 'bcd.Principal'
+}
+
+run {
+  standardInput = System.in
 }
 
 // Para gerar um JAR executável
@@ -31,10 +35,15 @@ dependencies {
 
     // Driver JDBC para o SQLite
     // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
-    implementation 'org.xerial:sqlite-jdbc:3.39.4.0'
+    implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
 
     // Driver JDBC para o MySQL
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    implementation 'mysql:mysql-connector-java:8.0.31'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+}
 
+// Merging Service Descriptor Files (necessário para o driver JDBC)
+// Java libraries often contain service descriptors files in the META-INF/services directory of the JAR. A service descriptor typically contains a line delimited list of classes that are supported for a particular service. At runtime, this file is read and used to configure library or application behavior.
+tasks.shadowJar {
+    mergeServiceFiles()
 }
